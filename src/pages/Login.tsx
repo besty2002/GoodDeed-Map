@@ -50,13 +50,16 @@ export default function Login() {
     try {
       setLoading(true);
 
-      // Get the current origin and ensure it doesn't end with a slash for consistency
-      const origin = window.location.origin;
+      // GitHub Pages uses a subpath, so we must include it in the redirect
+      const isGitHubPages = window.location.hostname.includes('github.io');
+      const redirectTo = isGitHubPages 
+        ? `${window.location.origin}/GoodDeed-Map/`
+        : window.location.origin;
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: origin // Supabase will redirect back to this base URL
+          redirectTo: redirectTo
         }
       });
       if (error) throw error;
@@ -66,7 +69,6 @@ export default function Login() {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="max-w-md mx-auto py-10 px-4">
