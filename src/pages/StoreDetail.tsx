@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, MessageCircle, Tv, Newspaper, Share2, MapPin, Calendar, Loader2, Heart, Send, Camera, User, Twitter, Link as LinkIcon, X } from 'lucide-react';
+import { ArrowLeft, ExternalLink, MessageCircle, Tv, Newspaper, Share2, MapPin, Calendar, Loader2, Heart, Send, Camera, User, Twitter, Link as LinkIcon, X } from 'lucide-react';
 import { storeService } from '../services/storeService';
 import { useAuth } from '../hooks/useAuth';
 import type { Store, SourceType } from '../types';
@@ -103,7 +103,7 @@ export default function StoreDetail() {
       setReviewForm({ user_name: '', content: '' });
       setReviewFile(null);
       setReviewPreview(null);
-      alert('温かいレビューをありがとうございます！');
+      alert('温かいレビュー를 ありがとうございます！');
     } catch (err: any) {
       console.error(err);
       alert('レビューの投稿に失敗しました。');
@@ -115,14 +115,14 @@ export default function StoreDetail() {
   const shareToSNS = (platform: 'twitter' | 'line' | 'copy') => {
     if (!store) return;
     const url = window.location.href;
-    const text = `【善行マップ】素敵な店主さんのいる「${store.name}」を紹介します。あなたの街にも、きっとあたたかい場所があります。 #善행 맵 #따뜻한 세계`;
+    const text = `【善行マップ】素敵な店主さんのいる「${store.name}」を紹介します。あなたの街にも、きっとあたたかい場所があります。 #善行マップ #温かい世界`;
     if (platform === 'twitter') window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
     else if (platform === 'line') window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank');
-    else if (platform === 'copy') navigator.clipboard.writeText(`${text}\n${url}`).then(() => alert('링크를 복사했습니다.'));
+    else if (platform === 'copy') navigator.clipboard.writeText(`${text}\n${url}`).then(() => alert('リンクをコピーしました。'));
   };
 
   if (loading) return <div className="flex flex-col items-center justify-center py-40 space-y-4"><Loader2 className="w-12 h-12 text-orange-500 animate-spin" /><p className="text-gray-400 font-black tracking-widest text-sm">FETCHING DETAILS</p></div>;
-  if (error || !store) return <div className="max-w-2xl mx-auto py-20 text-center space-y-6"><div className="bg-rose-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto text-rose-500"><Share2 className="w-10 h-10" /></div><h1 className="text-2xl font-bold text-gray-900">{error || '店舗が見つかりませんでした。'}</h1><button onClick={() => navigate('/')} className="bg-gray-900 text-white font-bold px-8 py-3 rounded-2xl hover:bg-gray-800 transition-all flex items-center justify-center gap-2 mx-auto"><ArrowLeft className="w-4 h-4" /> 홈으로 돌아가기</button></div>;
+  if (error || !store) return <div className="max-w-2xl mx-auto py-20 text-center space-y-6"><div className="bg-rose-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto text-rose-500"><Share2 className="w-10 h-10" /></div><h1 className="text-2xl font-bold text-gray-900">{error || '店舗が見つかりませんでした。'}</h1><button onClick={() => navigate('/')} className="bg-gray-900 text-white font-bold px-8 py-3 rounded-2xl hover:bg-gray-800 transition-all flex items-center justify-center gap-2 mx-auto"><ArrowLeft className="w-4 h-4" /> ホームに戻る</button></div>;
 
   const isLiked = localStorage.getItem(`liked_${id}`);
 
@@ -131,7 +131,7 @@ export default function StoreDetail() {
       <div className="space-y-12">
         <div className="flex justify-between items-center">
           <button onClick={() => navigate(-1)} className="group flex items-center gap-2 text-gray-400 hover:text-gray-900 transition-colors"><ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /><span className="font-bold uppercase tracking-widest text-xs">Back to Map</span></button>
-          <div className="flex items-center gap-2"><button onClick={() => shareToSNS('copy')} className="p-2.5 bg-gray-50 text-gray-500 rounded-xl hover:bg-gray-100 transition-all" title="Copy Link"><LinkIcon className="w-4 h-4" /></button><button onClick={() => shareToSNS('twitter')} className="p-2.5 bg-sky-50 text-sky-500 rounded-xl hover:bg-sky-100 transition-all" title="Share on X"><Twitter className="w-4 h-4" /></button></div>
+          <div className="flex items-center gap-2"><button onClick={() => shareToSNS('copy')} className="p-2.5 bg-gray-50 text-gray-500 rounded-xl hover:bg-gray-100 transition-all"><LinkIcon className="w-4 h-4" /></button><button onClick={() => shareToSNS('twitter')} className="p-2.5 bg-sky-50 text-sky-500 rounded-xl hover:bg-sky-100 transition-all"><Twitter className="w-4 h-4" /></button></div>
         </div>
 
         <header className="space-y-10">
@@ -143,7 +143,7 @@ export default function StoreDetail() {
           <div className="space-y-6">
             <div className="flex flex-wrap gap-3"><span className="px-5 py-2 bg-orange-600 text-white rounded-2xl text-[10px] font-black tracking-[0.2em] uppercase shadow-lg shadow-orange-200">{store.category}</span><span className="px-5 py-2 bg-gray-900 text-white rounded-2xl text-[10px] font-black tracking-[0.2em] uppercase shadow-lg shadow-gray-200">{store.region}</span></div>
             <h1 className="text-4xl md:text-6xl font-black text-gray-900 tracking-tighter leading-none">{store.name}</h1>
-            <div className="flex flex-wrap items-center gap-x-8 gap-y-4 text-gray-400 font-bold text-sm"><div className="flex items-center gap-2"><div className="bg-gray-100 p-2 rounded-xl"><MapPin className="w-4 h-4 text-gray-500" /></div><span>{store.address || '住所情報なし'}</span></div><div className="flex items-center gap-2"><div className="bg-gray-100 p-2 rounded-xl"><Calendar className="w-4 h-4 text-gray-500" /></div><span>登録日: {new Date(store.created_at).toLocaleDateString()}</span></div></div>
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-4 text-gray-400 font-bold text-sm"><div className="flex items-center gap-2"><div className="bg-gray-100 p-2 rounded-xl"><MapPin className="w-4 h-4 text-gray-500" /></div><span>{store.address || '住所정보なし'}</span></div><div className="flex items-center gap-2"><div className="bg-gray-100 p-2 rounded-xl"><Calendar className="w-4 h-4 text-gray-500" /></div><span>登録日: {new Date(store.created_at).toLocaleDateString()}</span></div></div>
           </div>
         </header>
 
@@ -183,6 +183,34 @@ export default function StoreDetail() {
           </div>
         </section>
       </div>
+
+      {/* Sources Section with getSourceIcon used */}
+      <section className="space-y-8">
+        <div className="flex items-end gap-4">
+          <h2 className="text-3xl font-black text-gray-900 tracking-tighter">出典・関連リンク</h2>
+          <span className="bg-gray-100 text-gray-400 text-xs px-3 py-1 rounded-full font-black uppercase tracking-widest">{store.sources?.length || 0} items</span>
+        </div>
+        {store.sources && store.sources.length > 0 ? (
+          <div className="grid gap-4">
+            {store.sources.map((source) => (
+              <a key={source.id} href={source.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-6 md:p-8 bg-white border border-gray-100 rounded-[2.5rem] hover:shadow-2xl hover:shadow-orange-100/50 hover:-translate-x-1 transition-all group">
+                <div className="flex items-center gap-6">
+                  <div className="p-4 bg-gray-50 rounded-2xl group-hover:bg-orange-50 transition-colors">
+                    {getSourceIcon(source.type)}
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-black text-orange-600 uppercase tracking-widest">{source.type}</span>
+                    <h3 className="font-black text-lg text-gray-800 group-hover:text-gray-900 transition-colors leading-tight">{source.title}</h3>
+                  </div>
+                </div>
+                <div className="bg-gray-50 p-3 rounded-full group-hover:bg-orange-500 group-hover:text-white transition-all"><ExternalLink className="w-5 h-5" /></div>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-400 font-medium italic">関連リンクが登録されていません。</p>
+        )}
+      </section>
     </div>
   );
 }
