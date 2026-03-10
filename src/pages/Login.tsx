@@ -50,11 +50,14 @@ export default function Login() {
     try {
       setLoading(true);
 
-      // GitHub Pages uses a subpath, so we must include it in the redirect
-      const isGitHubPages = window.location.hostname.includes('github.io');
-      const redirectTo = isGitHubPages 
-        ? `${window.location.origin}/GoodDeed-Map/`
-        : window.location.origin;
+      // Construct redirect URL
+      let redirectTo = window.location.origin;
+      if (window.location.hostname.includes('github.io')) {
+        // Ensure subpath is included for GitHub Pages
+        redirectTo = `${window.location.origin}/GoodDeed-Map/`;
+      }
+
+      console.log('Redirecting to:', redirectTo);
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
@@ -69,6 +72,7 @@ export default function Login() {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="max-w-md mx-auto py-10 px-4">
