@@ -120,6 +120,16 @@ export default function AdminDashboard() {
                 <div className="space-y-6">
                   <div className="space-y-2"><label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Name</label><input className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-500/20 outline-none font-bold text-gray-700" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} /></div>
                   <div className="space-y-2">
+                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Deed Type</label>
+                    <select 
+                      className="w-full px-6 py-4 bg-rose-50/50 border-none rounded-2xl focus:ring-2 focus:ring-rose-500/20 outline-none font-bold text-rose-700 appearance-none cursor-pointer"
+                      value={formData.deed_type}
+                      onChange={e => setFormData({...formData, deed_type: e.target.value as DeedType})}
+                    >
+                      {DEED_TYPES.map(d => <option key={d} value={d}>{d}</option>)}
+                    </select>
+                  </div>
+                  <div className="space-y-2">
                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Photo</label>
                     {formData.thumbnail_url ? (
                       <div className="relative aspect-video rounded-2xl overflow-hidden border border-orange-100"><img src={formData.thumbnail_url} className="w-full h-full object-cover" alt="Store" /><button onClick={() => setFormData({...formData, thumbnail_url: ''})} className="absolute top-2 right-2 p-1.5 bg-black/50 text-white rounded-full"><X className="w-4 h-4" /></button></div>
