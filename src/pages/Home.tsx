@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Tag, FilterX, ArrowRight, Sparkles, Loader2, Heart, LayoutGrid, Map as MapIcon, Gift, Trophy, Medal } from 'lucide-react';
+import { Search, MapPin, Tag, ArrowRight, Sparkles, Loader2, Heart, LayoutGrid, Map as MapIcon, Gift, Trophy, Medal } from 'lucide-react';
 import { storeService } from '../services/storeService';
 import StoreMap from '../components/StoreMap';
 import type { Store, Region, Category, DeedType } from '../types';
