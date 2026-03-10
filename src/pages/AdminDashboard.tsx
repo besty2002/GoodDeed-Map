@@ -20,10 +20,8 @@ const DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-const REGIONS: Region[] = ['東京都', '大阪府', '神奈川県', '愛知県', '福岡県', '北海道', 'その他'];
-const CATEGORIES: Category[] = ['飲食店', 'カフェ', 'ベーカリー', '和食', '洋食', '花屋', 'その他'];
-
 function LocationMarker({ position, setPosition }: { position: [number, number] | null, setPosition: (pos: [number, number]) => void }) {
+
   useMapEvents({ click(e) { setPosition([e.latlng.lat, e.latlng.lng]); } });
   return position === null ? null : <Marker position={position}></Marker>;
 }
