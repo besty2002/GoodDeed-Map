@@ -5,7 +5,7 @@ import type { Store, Category, Region } from '../types';
 const isSupabaseReady = () => !!supabase && typeof supabase.from === 'function';
 
 export const storeService = {
-  // 승인된 모든 가게 목록 가져오기
+  // 承認されたすべての店舗リストを取得
   async getStores() {
     if (!isSupabaseReady()) {
       console.warn('Supabase not initialized, returning empty array.');
@@ -23,7 +23,7 @@ export const storeService = {
     return data as Store[];
   },
 
-  // 특정 가게 상세 정보 가져오기
+  // 特定の店舗の詳細情報を取得
   async getStoreById(id: string | number) {
     if (!isSupabaseReady()) {
       throw new Error('Supabase not initialized.');
@@ -41,7 +41,7 @@ export const storeService = {
     return data as Store;
   },
 
-  // 제보하기 (reports 테이블에 저장)
+  // 情報提供 (reportsテーブルに保存)
   async reportStore(report: {
     store_name: string;
     url: string;
@@ -52,7 +52,7 @@ export const storeService = {
     user_id?: string;
   }) {
     if (!isSupabaseReady()) {
-      throw new Error('Supabase not initialized. 제보하기 기능은 현재 이용할 수 없습니다.');
+      throw new Error('Supabaseが初期化されていません。情報提供機能は現在利用できません。');
     }
     const { data, error } = await supabase
       .from('reports')
@@ -68,7 +68,7 @@ export const storeService = {
     return data;
   },
 
-  // 관리자: 대기 중인 제보 목록 가져오기
+  // 管理者: 承認待ちの情報提供リストを取得
   async getPendingReports() {
     if (!isSupabaseReady()) {
       console.warn('Supabase not initialized, returning empty array for reports.');
@@ -84,12 +84,12 @@ export const storeService = {
     return data;
   },
 
-  // 관리자: 제보 승인 처리
+  // 管理者: 情報提供の承認処理
   async approveReport(reportId: string | number, storeData: any) {
     if (!isSupabaseReady()) {
       throw new Error('Supabase not initialized.');
     }
-    // 1. 가게 정보 생성
+    // 1. 店舗情報の作成
     const { data: newStore, error: storeError } = await supabase
       .from('stores')
       .insert([storeData])
@@ -98,7 +98,7 @@ export const storeService = {
 
     if (storeError) throw storeError;
 
-    // 2. 제보 상태 업데이트
+    // 2. 情報提供ステータスの更新
     const { error: reportError } = await supabase
       .from('reports')
       .update({ status: 'approved' })
@@ -109,7 +109,7 @@ export const storeService = {
     return newStore;
   },
 
-  // 좋아요 개수 가져오기
+  // 応援(いいね)数の取得
   async getLikeCount(storeId: string | number) {
     if (!isSupabaseReady()) return 0;
     const { count, error } = await supabase
@@ -121,7 +121,7 @@ export const storeService = {
     return count || 0;
   },
 
-  // 좋아요 누르기
+  // 応援(いいね)を追加
   async addLike(storeId: string | number, userId?: string) {
     if (!isSupabaseReady()) return null;
     const { data, error } = await supabase
@@ -133,7 +133,7 @@ export const storeService = {
     return data;
   },
 
-  // 리뷰 가져오기
+  // レビューの取得
   async getReviews(storeId: string | number) {
     if (!isSupabaseReady()) return [];
     const { data, error } = await supabase
@@ -146,7 +146,7 @@ export const storeService = {
     return data;
   },
 
-  // 리뷰 등록하기
+  // レ뷰の登録
   async addReview(review: {
     store_id: string | number;
     user_name: string;
@@ -164,7 +164,7 @@ export const storeService = {
     return data;
   },
 
-  // 마이페이지: 내가 제보한 목록
+  // マイページ: 自分が投稿した店舗リスト
   async getUserReports(userId: string) {
     if (!isSupabaseReady()) return [];
     const { data, error } = await supabase
@@ -176,7 +176,7 @@ export const storeService = {
     return data;
   },
 
-  // 마이페이지: 내가 응원한 가게들
+  // マイページ: 自分が応援した店舗リスト
   async getUserLikedStores(userId: string) {
     if (!isSupabaseReady()) return [];
     const { data, error } = await supabase
@@ -191,7 +191,7 @@ export const storeService = {
     return (data as any[]).map((item: any) => item.stores).filter(Boolean);
   },
 
-  // 마이페이지: 내가 쓴 리뷰
+  // マイページ: 自分が書いたレビューリスト
   async getUserReviews(userId: string) {
     if (!isSupabaseReady()) return [];
     const { data, error } = await supabase
@@ -206,7 +206,7 @@ export const storeService = {
     return data;
   },
 
-  // 타임라인용: 최근 활동(리뷰 + 새 가게) 가져오기
+  // タイムライン用: 最近の活動(レビュー + 新規店舗)の取得
   async getRecentActivity(limit: number = 10) {
     if (!isSupabaseReady()) return [];
     
@@ -223,11 +223,11 @@ export const storeService = {
     return timeline.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, limit);
   },
 
-  // 이미지 업로드 기능
+  // 画像アップロード機能
   async uploadImage(file: File, bucket: string = 'store-images') {
     if (!isSupabaseReady()) throw new Error('Supabase not initialized.');
     
-    // 파일명 중복 방지를 위해 유니크한 이름 생성
+    // ファイル名の重複防止のためユニークな名前を生成
     const fileExt = file.name.split('.').pop();
     const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
     const filePath = `${fileName}`;
@@ -238,7 +238,7 @@ export const storeService = {
 
     if (uploadError) throw uploadError;
 
-    // 업로드된 파일의 공개 URL 가져오기
+    // アップロードされたファイルの公開URLを取得
     const { data: { publicUrl } } = supabase.storage
       .from(bucket)
       .getPublicUrl(filePath);

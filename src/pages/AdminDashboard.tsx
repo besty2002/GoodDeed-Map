@@ -20,8 +20,9 @@ const DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-function LocationMarker({ position, setPosition }: { position: [number, number] | null, setPosition: (pos: [number, number]) => void }) {
+const DEED_TYPES: DeedType[] = ['高齢者支援', '子供支援', '環境保護', '障がい者支援', '地域貢献', '寄付・譲渡', 'その他'];
 
+function LocationMarker({ position, setPosition }: { position: [number, number] | null, setPosition: (pos: [number, number]) => void }) {
   useMapEvents({ click(e) { setPosition([e.latlng.lat, e.latlng.lng]); } });
   return position === null ? null : <Marker position={position}></Marker>;
 }
@@ -64,7 +65,7 @@ export default function AdminDashboard() {
       const url = await storeService.uploadImage(file);
       setFormData({ ...formData, thumbnail_url: url });
     } catch (err) {
-      alert('이미지 업로드에 실패했습니다.');
+      alert('画像のアップロードに失敗しました。');
     } finally { setUploading(false); }
   };
 
@@ -95,7 +96,7 @@ export default function AdminDashboard() {
   };
 
   if (authLoading) return <div className="flex flex-col items-center justify-center py-40 space-y-4"><Loader2 className="w-12 h-12 text-orange-500 animate-spin" /><p className="text-gray-400 font-black tracking-widest">AUTHENTICATING</p></div>;
-  if (!user || user.email !== 'doogiya2002@gmail.com') return <div className="max-w-md mx-auto py-40 text-center space-y-8 px-4"><div className="bg-rose-100 w-24 h-24 rounded-[2rem] flex items-center justify-center mx-auto text-rose-500 shadow-xl shadow-rose-100"><Lock className="w-10 h-10" /></div><div className="space-y-2"><h1 className="text-3xl font-black text-gray-900 tracking-tighter">Access Restricted</h1><p className="text-gray-500 font-medium">{!user ? '관리자 전용 페이지입니다. 로그인 후 이용해 주세요.' : '죄송합니다. 관리자 권한이 없습니다.'}</p></div><Link to="/login" className="block w-full py-4 bg-gray-900 text-white font-black rounded-2xl shadow-xl hover:bg-gray-800 transition-all">로그인 페이지로 이동</Link></div>;
+  if (!user || user.email !== 'doogiya2002@gmail.com') return <div className="max-w-md mx-auto py-40 text-center space-y-8 px-4"><div className="bg-rose-100 w-24 h-24 rounded-[2rem] flex items-center justify-center mx-auto text-rose-500 shadow-xl shadow-rose-100"><Lock className="w-10 h-10" /></div><div className="space-y-2"><h1 className="text-3xl font-black text-gray-900 tracking-tighter">Access Restricted</h1><p className="text-gray-500 font-medium">{!user ? '管理者専用ページです。ログインしてからご利用ください。' : '申し訳ありませんが、管理者権限がありません。'}</p></div><Link to="/login" className="block w-full py-4 bg-gray-900 text-white font-black rounded-2xl shadow-xl hover:bg-gray-800 transition-all">ログインページへ移動</Link></div>;
 
   return (
     <div className="max-w-7xl mx-auto py-10 px-4">
@@ -133,7 +134,7 @@ export default function AdminDashboard() {
               <div className="flex gap-4"><button onClick={() => setEditingReport(null)} className="flex-1 py-5 bg-gray-50 text-gray-500 font-black rounded-2xl active:scale-95">キャンセル</button><button disabled={actionLoading} onClick={handleApprove} className="flex-[2] py-5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black rounded-2xl shadow-xl shadow-emerald-200 active:scale-95 flex items-center justify-center gap-3">{actionLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Check className="w-5 h-5" />}承認して公開</button></div>
             </div>
           ) : (
-            <div className="h-full flex flex-col items-center justify-center py-40 bg-gray-50/50 rounded-[4rem] border-2 border-dashed border-gray-100 space-y-6"><div className="bg-white p-6 rounded-[2rem] shadow-xl shadow-gray-200/20"><MapPin className="w-12 h-12 text-gray-200" /></div><p className="text-gray-400 font-bold text-center max-w-xs leading-relaxed">제보를 선택하여<br />상세 내용을 편집하고 승인하세요.</p></div>
+            <div className="h-full flex flex-col items-center justify-center py-40 bg-gray-50/50 rounded-[4rem] border-2 border-dashed border-gray-100 space-y-6"><div className="bg-white p-6 rounded-[2rem] shadow-xl shadow-gray-200/20"><MapPin className="w-12 h-12 text-gray-200" /></div><p className="text-gray-400 font-bold text-center max-w-xs leading-relaxed">投稿を選択して、詳細を編集・承認してください。</p></div>
           )}
         </div>
       </div>

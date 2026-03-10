@@ -6,7 +6,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { Store } from '../types';
 
-// Leaflet 기본 아이콘 설정
+// Leaflet default icon settings
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
@@ -19,7 +19,7 @@ const DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-// 지도 중심 이동을 위한 헬퍼 컴포넌트
+// Helper component for map view changes
 function ChangeView({ center, zoom }: { center: [number, number], zoom: number }) {
   const map = useMap();
   map.setView(center, zoom);
@@ -48,7 +48,7 @@ export default function StoreMap({ stores }: StoreMapProps) {
       (position) => {
         const { latitude, longitude } = position.coords;
         setMapCenter([latitude, longitude]);
-        setZoom(14); // 내 주변을 자세히 보기 위해 줌 확대
+        setZoom(14); // Zoom in to see nearby stores
         setLocating(false);
       },
       (error) => {

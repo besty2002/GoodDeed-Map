@@ -68,7 +68,7 @@ export default function ReportStore() {
           <h1 className="text-3xl font-black text-gray-900 tracking-tighter">Login Required</h1>
           <p className="text-gray-500 font-medium">善行の投稿にはログインが必要です。</p>
         </div>
-        <Link to="/login" className="block w-full py-4 bg-gray-900 text-white font-black rounded-2xl shadow-xl hover:bg-gray-800 transition-all">ログイン페이지로</Link>
+        <Link to="/login" className="block w-full py-4 bg-gray-900 text-white font-black rounded-2xl shadow-xl hover:bg-gray-800 transition-all">ログインページへ</Link>
       </div>
     );
   }
@@ -78,6 +78,10 @@ export default function ReportStore() {
       <div className="max-w-2xl mx-auto py-20 text-center space-y-6">
         <div className="bg-orange-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto"><CheckCircle className="w-10 h-10 text-orange-600" /></div>
         <h1 className="text-3xl font-bold text-gray-900 font-jp">投稿ありがとうございます！</h1>
+        <p className="text-gray-600 leading-relaxed">
+          運営チームで内容を確認後、マップに登録させていただきます。<br />
+          あたたかい世界を共に創っていただき、心より感謝申し上げます。
+        </p>
         <button onClick={() => setSubmitted(false)} className="mt-8 text-orange-600 font-bold hover:underline">続けて投稿する</button>
       </div>
     );
@@ -91,7 +95,7 @@ export default function ReportStore() {
       </div>
       <form onSubmit={handleSubmit} className="space-y-8 bg-white p-8 md:p-12 border border-gray-100 rounded-[3rem] shadow-2xl shadow-gray-200/40">
         {error && <div className="flex items-center gap-3 p-5 bg-rose-50 text-rose-600 rounded-2xl text-sm font-bold border border-rose-100"><AlertCircle className="w-5 h-5" />{error}</div>}
-        <div className="space-y-3"><label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-2">Store Name</label><input required type="text" className="w-full px-8 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-500/20 outline-none font-bold text-gray-700" value={formData.store_name} onChange={(e) => setFormData({...formData, store_name: e.target.value})} /></div>
+        <div className="space-y-3"><label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-2">Store Name</label><input required type="text" className="w-full px-8 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-500/20 outline-none transition-all font-bold text-gray-700" value={formData.store_name} onChange={(e) => setFormData({...formData, store_name: e.target.value})} /></div>
         <div className="space-y-3">
           <label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-2">Store Photo</label>
           {imagePreview ? (
@@ -107,7 +111,7 @@ export default function ReportStore() {
         </div>
         <div className="space-y-3"><label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-2">Source URL</label><input required type="url" className="w-full px-8 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-500/20 outline-none transition-all font-bold text-gray-700" value={formData.url} onChange={(e) => setFormData({...formData, url: e.target.value})} /></div>
         <div className="space-y-3"><label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-2">Comment</label><textarea className="w-full px-8 py-5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-orange-500/20 outline-none h-40 resize-none font-medium text-gray-700" value={formData.comment} onChange={(e) => setFormData({...formData, comment: e.target.value})} /></div>
-        <button disabled={loading} type="submit" className="w-full bg-gradient-to-r from-orange-600 to-rose-600 text-white font-black py-6 rounded-2xl hover:shadow-2xl transition-all active:scale-95 flex items-center justify-center gap-3 disabled:opacity-50">{loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Heart className="w-6 h-6 fill-current" />}内容を確認して投稿する</button>
+        <button disabled={loading} type="submit" className="w-full bg-gradient-to-r from-orange-600 to-rose-600 text-white font-black py-6 rounded-2xl hover:shadow-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-3 disabled:opacity-50">{loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Heart className="w-6 h-6 fill-current" />}内容を確認して投稿する</button>
       </form>
     </div>
   );
