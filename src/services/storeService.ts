@@ -188,7 +188,7 @@ export const storeService = {
       .eq('user_id', userId)
       .order('created_at', { ascending: false });
     if (error) throw error;
-    return data.map((item: any) => item.stores).filter(Boolean);
+    return (data as any[]).map((item: any) => item.stores).filter(Boolean);
   },
 
   // 마이페이지: 내가 쓴 리뷰
@@ -210,18 +210,16 @@ export const storeService = {
   async getRecentActivity(limit: number = 10) {
     if (!isSupabaseReady()) return [];
     
-    // 최근 리뷰 10개와 최근 등록 가게 10개를 가져와서 합칩니다.
     const [reviews, stores] = await Promise.all([
       supabase.from('reviews').select('*, stores(name, thumbnail_url)').order('created_at', { ascending: false }).limit(limit),
       supabase.from('stores').select('*').order('created_at', { ascending: false }).limit(limit)
     ]);
 
     const timeline = [
-      ...(reviews.data || []).map(r => ({ ...r, type: 'review' })),
-      ...(stores.data || []).map(s => ({ ...s, type: 'store' }))
+      ...(reviews.data || []).map((r: any) => ({ ...r, type: 'review' })),
+      ...(stores.data || []).map((s: any) => ({ ...s, type: 'store' }))
     ];
 
-    // 시간순 정렬
     return timeline.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, limit);
   },
 

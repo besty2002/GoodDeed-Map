@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { Heart, PlusCircle, User, Map, LogOut, Zap, Menu, X, Home } from 'lucide-react';
+import { Heart, PlusCircle, User, Map, LogOut, Zap, Menu, X } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
 export default function Layout() {
@@ -165,14 +165,14 @@ export default function Layout() {
   );
 }
 
-function MobileNavLink({ to, icon, label, onClick }: { to: string, icon: JSX.Element, label: string, onClick: () => void }) {
+function MobileNavLink({ to, icon, label, onClick }: { to: string, icon: React.ReactNode, label: string, onClick: () => void }) {
   return (
     <Link 
       to={to} 
       onClick={onClick}
       className="flex items-center gap-4 p-4 text-gray-600 font-bold hover:text-orange-600 hover:bg-orange-50/50 rounded-2xl transition-all"
     >
-      <div className="p-2 bg-gray-50 rounded-xl group-hover:bg-white transition-colors">
+      <div className="p-2 bg-gray-50 rounded-xl">
         {icon}
       </div>
       {label}

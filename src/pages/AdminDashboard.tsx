@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { storeService } from '../services/storeService';
-import { Check, X, ExternalLink, Loader2, MapPin, Image as ImageIcon, Info, Gift, Lock, Camera } from 'lucide-react';
+import { Check, X, ExternalLink, Loader2, MapPin, Info, Lock, Camera } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -20,8 +20,6 @@ const DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-const REGIONS: Region[] = ['東京都', '大阪府', '神奈川県', '愛知県', '福岡県', '北海道', 'その他'];
-const CATEGORIES: Category[] = ['飲食店', 'カフェ', 'ベーカリー', '和食', '洋食', '花屋', 'その他'];
 const DEED_TYPES: DeedType[] = ['高齢者支援', '子供支援', '環境保護', '障がい者支援', '地域貢献', '寄付・譲渡', 'その他'];
 
 function LocationMarker({ position, setPosition }: { position: [number, number] | null, setPosition: (pos: [number, number]) => void }) {
@@ -104,7 +102,7 @@ export default function AdminDashboard() {
     <div className="max-w-7xl mx-auto py-10 px-4">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
         <div className="space-y-2"><div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-900 text-white text-[10px] font-black tracking-widest uppercase">Admin Console</div><h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tighter">承認待ちの善行</h1></div>
-        <div className="bg-orange-50 px-8 py-4 rounded-[2rem] border border-orange-100 flex items-center gap-4"><div className="w-3 h-3 bg-orange-500 rounded-full animate-pulse"></div><span className="text-orange-700 font-black text-lg">{reports.length} 件의 待機中</span></div>
+        <div className="bg-orange-50 px-8 py-4 rounded-[2rem] border border-orange-100 flex items-center gap-4"><div className="w-3 h-3 bg-orange-500 rounded-full animate-pulse"></div><span className="text-orange-700 font-black text-lg">{reports.length} 件の待機中</span></div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -124,7 +122,7 @@ export default function AdminDashboard() {
                   <div className="space-y-2">
                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Photo</label>
                     {formData.thumbnail_url ? (
-                      <div className="relative aspect-video rounded-2xl overflow-hidden border border-orange-100"><img src={formData.thumbnail_url} className="w-full h-full object-cover" /><button onClick={() => setFormData({...formData, thumbnail_url: ''})} className="absolute top-2 right-2 p-1.5 bg-black/50 text-white rounded-full"><X className="w-4 h-4" /></button></div>
+                      <div className="relative aspect-video rounded-2xl overflow-hidden border border-orange-100"><img src={formData.thumbnail_url} className="w-full h-full object-cover" alt="Store" /><button onClick={() => setFormData({...formData, thumbnail_url: ''})} className="absolute top-2 right-2 p-1.5 bg-black/50 text-white rounded-full"><X className="w-4 h-4" /></button></div>
                     ) : (
                       <label className="flex flex-col items-center justify-center aspect-video bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl cursor-pointer hover:bg-orange-50 transition-all">{uploading ? <Loader2 className="w-6 h-6 text-orange-500 animate-spin" /> : <Camera className="w-6 h-6 text-gray-400" />}<input type="file" className="hidden" onChange={handleImageUpload} /></label>
                     )}

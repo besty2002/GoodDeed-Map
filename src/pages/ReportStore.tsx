@@ -6,8 +6,8 @@ import { useAuth } from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
 
 const REGIONS: Region[] = ['東京都', '大阪府', '神奈川県', '愛知県', '福岡県', '北海道', 'その他'];
-const CATEGORIES: Category[] = ['飲食店', 'カフェ', 'ベーカリー', '和食', '洋食', '花屋', 'その他'];
-const DEED_TYPES: DeedType[] = ['高齢者支援', '子供支援', '環境保護', '障がい者支援', '地域貢献', '寄부・譲渡', 'その他'];
+const CATEGORIES: Category[] = ['飲食店', 'カフェ', 'ベー카리', '和食', '洋食', '花屋', 'その他'];
+const DEED_TYPES: DeedType[] = ['高齢者支援', '子供支援', '環境保護', '障がい者支援', '地域貢献', '寄付・譲渡', 'その他'];
 
 export default function ReportStore() {
   const { user } = useAuth();
@@ -48,7 +48,7 @@ export default function ReportStore() {
 
       await storeService.reportStore({
         ...formData,
-        user_id: user.id, // 유저 ID 추가
+        user_id: user.id,
         comment: `${formData.comment}${photo_url ? `\n[Image: ${photo_url}]` : ''}`
       });
       setSubmitted(true);
@@ -68,7 +68,7 @@ export default function ReportStore() {
           <h1 className="text-3xl font-black text-gray-900 tracking-tighter">Login Required</h1>
           <p className="text-gray-500 font-medium">善行の投稿にはログインが必要です。</p>
         </div>
-        <Link to="/login" className="block w-full py-4 bg-gray-900 text-white font-black rounded-2xl shadow-xl hover:bg-gray-800 transition-all">ログインページへ</Link>
+        <Link to="/login" className="block w-full py-4 bg-gray-900 text-white font-black rounded-2xl shadow-xl hover:bg-gray-800 transition-all">ログイン페이지로</Link>
       </div>
     );
   }
@@ -95,7 +95,7 @@ export default function ReportStore() {
         <div className="space-y-3">
           <label className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-2">Store Photo</label>
           {imagePreview ? (
-            <div className="relative aspect-video rounded-[2rem] overflow-hidden border-2 border-orange-100 group"><img src={imagePreview} className="w-full h-full object-cover" /><button type="button" onClick={() => { setImageFile(null); setImagePreview(null); }} className="absolute top-4 right-4 p-2 bg-black/50 text-white rounded-full"><X className="w-4 h-4" /></button></div>
+            <div className="relative aspect-video rounded-[2rem] overflow-hidden border-2 border-orange-100 group"><img src={imagePreview} className="w-full h-full object-cover" alt="Preview" /><button type="button" onClick={() => { setImageFile(null); setImagePreview(null); }} className="absolute top-4 right-4 p-2 bg-black/50 text-white rounded-full"><X className="w-4 h-4" /></button></div>
           ) : (
             <label className="flex flex-col items-center justify-center aspect-video bg-gray-50 border-2 border-dashed border-gray-200 rounded-[2rem] cursor-pointer hover:bg-orange-50 transition-all"><Camera className="w-8 h-8 text-orange-500" /><input type="file" accept="image/*" className="hidden" onChange={handleImageChange} /></label>
           )}
